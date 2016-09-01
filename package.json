@@ -1,22 +1,24 @@
 {
-  "name": "fin-id",
+  "name": "@dr-kobros/fin-id",
   "description": "Finland Identity Number Library",
-  "version": "0.1.4",
-  "homepage": "http://github.com/jheusala/node-fin-id",
+  "version": "0.2.0",
+  "homepage": "http://github.com/pekkis/node-fin-id",
   "scripts": {
     "test": "mocha --compilers js:babel-register",
-    "lint": "eslint src --ext js"
+    "lint": "eslint src --ext js",
+    "build": "babel src -d lib",
+    "prepublish": "npm run build"
   },
   "bin": {
-    "check-hetu": "./src/bin/check-hetu.js",
-    "checkhetu": "./src/bin/check-hetu.js"
+    "check-hetu": "./lib/bin/check-hetu.js",
+    "checkhetu": "./lib/bin/check-hetu.js"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/pekkis/node-fin-id.git"
   },
   "author": "Mikko Forsström <pekkisx@gmail.com>",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "dependencies": {
     "minimist": ">= 1.1.0 < 1.2.0",
     "moment": ">= 2.9.0 < 3.0.0",
