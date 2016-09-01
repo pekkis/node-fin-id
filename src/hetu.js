@@ -1,5 +1,4 @@
-function parse_hetu_string (hetu) {
-
+function parseHetuString(hetu) {
   // Tarkista henkilötunnus hetu (merkkijono muotoa PPKKVVXNNNT).
   // dd = 01..31 (päivä)
   // mm = 01..12 (kuukausi)
@@ -10,7 +9,7 @@ function parse_hetu_string (hetu) {
 
   // vaaditaan 11 merkin pituus
   if (hetu.length !== 11) {
-    return;
+    return false;
   }
 
   const dd = parseInt(hetu.substr(0, 2).replace('/^0+/', '').replace('/^$/', ''), 10);
@@ -21,19 +20,21 @@ function parse_hetu_string (hetu) {
   const checksum = hetu[10].toUpperCase();
 
   if ((dd < 1) || (dd > 31)) {
-    return;
+    return false;
   }
 
   if ((mm < 1) || (mm > 12)) {
-    return;
+    return false;
   }
-  if (isNaN(yy) || (yy < 0)) { return; }
-  if ((century !=='+') && (century !== '-') && (century !== 'A')) {
-    return;
+  if (isNaN(yy) || (yy < 0)) {
+    return false;
+  }
+  if ((century !== '+') && (century !== '-') && (century !== 'A')) {
+    return false;
   }
 
   if (isNaN(id) || (id < 0)) {
-    return;
+    return false;
   }
 
   return {
@@ -46,57 +47,72 @@ function parse_hetu_string (hetu) {
   };
 }
 
+/** Calculate check sum for finnish hetu ID object */
+function hetuChecksum(id) {
+  // luodaan iso luku äsken luetuista numeroista ja samalla lasketaan tarkiste
+  const n = (id.n + (id.yy * 1000) + (id.mm * 100000) + (id.dd * 10000000)) % 31;
+  const s = '0123456789ABCDEFHJKLMNPRSTUVWXY';
+  return s[n];
+}
+
 /** Check hetu from a string */
-function check_parsed_hetu (id) {
-
-  /** Calculate check sum for finnish hetu ID object */
-  function hetu_checksum(id) {
-    // luodaan iso luku äsken luetuista numeroista ja samalla lasketaan tarkiste
-    const n = (id.n + id.yy*1000 + id.mm*100000 + id.dd*10000000)%31;
-    const s = '0123456789ABCDEFHJKLMNPRSTUVWXY';
-    return s[n];
+function checkParsedHetu(id) {
+  if ((!id) || (id && (!id.t))) {
+    return false;
   }
+  return hetuChecksum(id) === id.t;
+}
 
-  if( (!id) || (id && (!id.t)) ) { return false; }
-  return hetu_checksum(id) === id.t;
+function parseCentury(x) {
+  switch (x) {
+    case '+':
+      return 1800;
+    case '-':
+      return 1900;
+    case 'A':
+      return 2000;
+    default:
+      throw new Error('error in century parsing');
+  }
 }
 
 /** Parse date from hetu object */
-function parse_hetu_date(id) {
-  function parse_century(x) {
-    switch(x) {
-      case '+': return 1800;
-      case '-': return 1900;
-      case 'A': return 2000;
-    }
+function parseHetuDate(id) {
+  const century = parseCentury(id.x);
+  if (century && id.mm && id.dd) {
+    return new Date(century + id.yy, id.mm - 1, id.dd, 12);
   }
-  const century = parse_century(id.x);
-  if(century && id.mm && id.dd) { return new Date(century+id.yy, id.mm-1, id.dd, 12); }
+
+  throw new Error('Error in parsing hetu');
 }
 
 /** Parse sex */
-function parse_sex(parsed_hetu) {
-  let n = parsed_hetu.n;
-  if((n === undefined) || (typeof n !== "number")) { return; }
+function parseSex(parsedHetu) {
+  let n = parsedHetu.n;
+  if ((n === undefined) || (typeof n !== 'number')) {
+    return false;
+  }
 
-  n = n & 1;
-  /* jshint bitwise: true */
-  /* jslint bitwise: true */
-  switch(n) {
-    case 0: return "female";
-    case 1: return "male";
+  n &= 1;
+  switch (n) {
+    case 0:
+      return 'female';
+    case 1:
+      return 'male';
+    default:
+      throw new Error('Invalid gender');
   }
 }
 
 export function parse(originalHetu) {
-  let hetu = "" + originalHetu;
-  let parsed_hetu = parse_hetu_string(hetu);
+  let hetu = originalHetu;
+  let parsedHetu = parseHetuString(hetu);
 
   return {
-    'change': function(h) { hetu= "" + h; parsed_hetu = parse_hetu_string(hetu); },
-    'check': function() { return check_parsed_hetu(parsed_hetu); },
-    'date': function() { return parse_hetu_date(parsed_hetu); },
-    'sex': function() { return parse_sex(parsed_hetu); }
+    change: function change(h) { hetu = h; parsedHetu = parseHetuString(hetu); },
+    check: function checkk() { return checkParsedHetu(parsedHetu); },
+    date: function date() { return parseHetuDate(parsedHetu); },
+    sex: function sex() { return parseSex(parsedHetu); },
   };
 }
 

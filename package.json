@@ -20,7 +20,6 @@
   "author": "Mikko Forsström <pekkisx@gmail.com>",
   "main": "lib/index.js",
   "dependencies": {
-    "minimist": "^1.2.0",
     "moment": ">= 2.9.0 < 3.0.0"
   },
   "devDependencies": {

@@ -1,17 +1,16 @@
 #!/usr/bin/env node
 
-import minimist from 'minimist';
+/* eslint-disable no-console */
+
+import moment from 'moment';
 import { parse } from '../hetu';
 
-const argv = minimist(process.argv.slice(2));
-
-argv._.forEach(value => {
+process.argv.slice(2).forEach(value => {
   const parsed = parse(value);
   const d = parsed.date();
   if (parsed.check()) {
-    console.log(value + ': born ' + d.getFullYear() + '-' + (d.getMonth()+1) +
-      '-' + d.getDate() + ', ' + parsed.sex());
+    console.log(`${value}: born ${moment(d).format('YYYY-MM-DD')}, ${parsed.sex()}`);
   } else {
-    console.log(value + ': Failed to parse hetu');
+    console.log(`${value}: Failed to parse hetu`);
   }
 });
