@@ -1,49 +1,44 @@
-"use strict";
+import { expect } from 'chai';
+import fin_id from '../src/';
 
-var is = require('nor-is');
-var assert = require('assert');
-var debug = require('nor-debug');
-var fin_id = require('../src/');
-
-/* */
 describe('hetu', function(){
 
 	it('.parse() is callable', function(){
-		debug.assert(fin_id).is('object');
-		debug.assert(fin_id.hetu).is('object');
-		debug.assert(fin_id.hetu.parse).is('function');
+		expect(fin_id).to.be.a('object');
+		expect(fin_id.hetu).to.be.a('object');
+		expect(fin_id.hetu.parse).to.be.a('function');
 	});
 
 	it('.check() is callable', function(){
-		debug.assert(fin_id).is('object');
-		debug.assert(fin_id.hetu).is('object');
-		debug.assert(fin_id.hetu.check).is('function');
+		expect(fin_id).to.be.a('object');
+		expect(fin_id.hetu).to.be.a('object');
+		expect(fin_id.hetu.check).to.be.a('function');
 	});
 
 	it('.check() works', function(){
-		debug.assert( fin_id ).is('object');
-		debug.assert( fin_id.hetu ).is('object');
-		debug.assert( fin_id.hetu.check ).is('function');
+		expect( fin_id ).to.be.a('object');
+		expect( fin_id.hetu ).to.be.a('object');
+		expect( fin_id.hetu.check ).to.be.a('function');
 
-		debug.assert( fin_id.hetu.check('010171-1000') ).is('boolean').equals(true);
-		debug.assert( fin_id.hetu.check('010171-1234') ).is('boolean').equals(false);
-		debug.assert( fin_id.hetu.check('010171-1985') ).is('boolean').equals(true);
+		expect( fin_id.hetu.check('010171-1000') ).to.equal(true);
+		expect( fin_id.hetu.check('010171-1234') ).to.equal(false);
+		expect( fin_id.hetu.check('010171-1985') ).to.equal(true);
 	});
 
 	it('.check() works', function(){
-		debug.assert( fin_id ).is('object');
-		debug.assert( fin_id.hetu ).is('object');
-		debug.assert( fin_id.hetu.parse ).is('function');
+		expect( fin_id ).to.be.a('object');
+		expect( fin_id.hetu ).to.be.a('object');
+		expect( fin_id.hetu.parse ).to.be.a('function');
 
 		var parsed = fin_id.hetu.parse('010171-1000');
 
 		var date = parsed.date();
-		debug.assert( date ).is('date');
-		debug.assert( date.getFullYear() ).is('number').equals(1971);
-		debug.assert( date.getMonth() ).is('number').equals(0);
-		debug.assert( date.getDate() ).is('number').equals(1);
+		expect( date ).to.be.a('date');
+		expect( date.getFullYear() ).to.equal(1971);
+		expect( date.getMonth() ).to.equal(0);
+		expect( date.getDate() ).to.equal(1);
 
-		debug.assert( parsed.sex() ).is('string').equals('female');
+		expect( parsed.sex() ).to.equal('female');
 	});
 
 });
