@@ -6,7 +6,7 @@ Finnish Identity Number Library
 Description
 -----------
 
-This library is a collection of functions dealing with Finnish specific 
+This library is a collection of functions dealing with Finnish specific
 identification numbers.
 
 Features
@@ -25,6 +25,7 @@ Simplest way to install is to use [npm](http://npmjs.org/), just simply `npm ins
 Authors
 -------
 
+* Mikko Forsström <pekkisx@gmail.com>
 * Jaakko-Heikki Heusala <jheusala@iki.fi>
 * Mux F-productions  <contact@mux.fi>
 * Juho Vähäkangas <juhov@iki.fi>

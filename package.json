@@ -20,11 +20,8 @@
   "author": "Mikko Forsström <pekkisx@gmail.com>",
   "main": "lib/index.js",
   "dependencies": {
-    "minimist": ">= 1.1.0 < 1.2.0",
-    "moment": ">= 2.9.0 < 3.0.0",
-    "nor-debug": ">= 0.1.54 < 0.2.0",
-    "nor-is": ">= 0.1.17 < 0.2.0",
-    "snippets": ">= 0.0.6 < 0.1.0"
+    "minimist": "^1.2.0",
+    "moment": ">= 2.9.0 < 3.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",

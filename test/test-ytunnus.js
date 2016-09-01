@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-var fin_id = require('../src/');
+import fin_id from '../src/';
 
-/* */
 describe('ytunnus', function(){
 
 	it('.parse() is callable', function(){

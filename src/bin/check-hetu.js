@@ -1,20 +1,17 @@
 #!/usr/bin/env node
-/* Simple shell tool to check HETU(s) */
 
-"use strict";
+import minimist from 'minimist';
+import { parse } from '../hetu';
 
-var hetu = require('fin-id').hetu;
-var argv = require('minimist')(process.argv.slice(2));
-var foreach = require('snippets').foreach;
+const argv = minimist(process.argv.slice(2));
 
-foreach(argv._).each(function(value) {
-	var parsed = hetu.parse(value);
-	var d = parsed.date();
-	if(parsed.check()) {
-		console.log(value + ': born ' + d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate() + ', ' + parsed.sex() );
-	} else {
-		console.log(value + ': Failed to parse hetu');
-	}
+argv._.forEach(value => {
+  const parsed = parse(value);
+  const d = parsed.date();
+  if (parsed.check()) {
+    console.log(value + ': born ' + d.getFullYear() + '-' + (d.getMonth()+1) +
+      '-' + d.getDate() + ', ' + parsed.sex());
+  } else {
+    console.log(value + ': Failed to parse hetu');
+  }
 });
-
-/* EOF */
