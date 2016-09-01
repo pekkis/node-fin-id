@@ -4,7 +4,7 @@
   "version": "0.1.4",
   "homepage": "http://github.com/jheusala/node-fin-id",
   "scripts": {
-    "test": "mocha --compilers js:babel-register -u bdd -c -R spec tests/test-*.js",
+    "test": "mocha --compilers js:babel-register",
     "lint": "eslint src --ext js"
   },
   "bin": {
